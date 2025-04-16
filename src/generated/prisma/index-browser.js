@@ -117,10 +117,13 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
-exports.Prisma.UserScalarFieldEnum = {
+exports.Prisma.JobScalarFieldEnum = {
   id: 'id',
-  name: 'name',
-  email: 'email',
+  title: 'title',
+  company: 'company',
+  location: 'location',
+  jobType: 'jobType',
+  description: 'description',
   createdAt: 'createdAt'
 };
 
@@ -136,7 +139,7 @@ exports.Prisma.QueryMode = {
 
 
 exports.Prisma.ModelName = {
-  User: 'User'
+  Job: 'Job'
 };
 
 /**
