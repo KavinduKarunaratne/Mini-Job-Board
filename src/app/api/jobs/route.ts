@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { getSession } from "@/lib/session";
 import { NextResponse } from "next/server";
 
 export async function GET() {
@@ -13,6 +14,15 @@ export async function POST(req: Request) {
     try {
         const body = await req.json();
 
+        const session = await getSession();
+        const email = session?.user.email;
+        const user = await prisma.user.findUnique({
+            where: { email: String(email)}
+        })
+        if (!user) {
+            throw new Error("User not found");
+        }
+        
         if (!body.title || !body.company || !body.location || !body.jobType || !body.description) {
             return NextResponse.json(
                 { message: 'Missing required fields', body},
@@ -27,7 +37,7 @@ export async function POST(req: Request) {
                 location: body.location,
                 jobType: body.jobType,
                 description: body.description,
-                userId: body.userId
+                userId: user.id
             }
         })
 
