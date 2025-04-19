@@ -6,6 +6,13 @@ import { prisma } from "./prisma";
 const secretKey = process.env.SESSION_SECRET
 const encodedKey = new TextEncoder().encode(secretKey)
 
+interface SessionPayload {
+    user: {
+      email: string;
+    };
+    expiresAt: Date | string;
+}
+
 export async function encrypt(payload: any) {
     return await new SignJWT(payload)
     .setProtectedHeader({ alg: "HS256" })
@@ -19,7 +26,7 @@ export async function decrypt(session: string | undefined = "") {
         const { payload } = await jwtVerify(session, encodedKey, {
             algorithms: ["HS256"]
         });
-        return payload;
+        return payload as unknown as SessionPayload;
     } catch (error) {
         console.log("Failed to verify session")
     }
