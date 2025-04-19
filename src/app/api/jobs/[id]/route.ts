@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { getSession } from "@/lib/session";
 import { NextResponse } from "next/server";
 
 export async function GET(
@@ -60,6 +61,14 @@ export async function DELETE(
     { params } : { params: { id: string }}
 ) {
     try {
+        const session = await getSession();
+        const email = session?.user.email;
+        const user = await prisma.user.findUnique({
+            where: { email: String(email)}
+        })
+        if (!user) {
+            throw new Error("User not found");
+        }
         const { id } = await params;
 
         const job = await prisma.job.delete({
