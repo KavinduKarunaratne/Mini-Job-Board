@@ -26,7 +26,8 @@ export async function POST(req: Request) {
                 company: body.company,
                 location: body.location,
                 jobType: body.jobType,
-                description: body.description
+                description: body.description,
+                userId: body.userId
             }
         })
 
