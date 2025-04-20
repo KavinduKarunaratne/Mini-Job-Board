@@ -24,13 +24,20 @@ This project serves as a foundational platform for posting and browsing job list
    npm install
    ```
 
-3. Setup database
+3. Setup .env file
 
    ```bash
-   npx prisma migrate dev --name init
+   DATABASE_URL="postgresql://username:password@localhost:5432/dbname"
+   SESSION_SECRET="<Enter your secret>"
    ```
 
-4. Start server
+4. Setup database
+
+   ```bash
+   npx prisma db push
+   ```
+
+5. Start server
 
    ```baxh
    npm run dev
